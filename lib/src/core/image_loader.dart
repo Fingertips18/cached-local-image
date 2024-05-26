@@ -11,19 +11,16 @@ abstract class ImageLoader {
 
 class AssetImageLoader extends ImageLoader {
   AssetImageLoader({
-    required AssetImage assetImage,
+    required this.imageProvider,
   }) {
-    _assetImage = assetImage;
     _cacheManager = DefaultCacheManager();
     _loadManager = LoadManager(cacheManager: _cacheManager);
   }
 
-  late final AssetImage _assetImage;
+  @override
+  final AssetImage imageProvider;
   late final LoadManager _loadManager;
   late final DefaultCacheManager _cacheManager;
-
-  @override
-  AssetImage get imageProvider => _assetImage;
 
   @override
   Future<void> loadImage() async {
@@ -38,23 +35,20 @@ class AssetImageLoader extends ImageLoader {
 
 class FileImageLoader extends ImageLoader {
   FileImageLoader({
-    required FileImage fileImage,
+    required this.imageProvider,
   }) {
-    _fileImage = fileImage;
     _cacheManager = DefaultCacheManager();
     _loadManager = LoadManager(cacheManager: _cacheManager);
   }
 
-  late final FileImage _fileImage;
+  @override
+  final FileImage imageProvider;
   late final LoadManager _loadManager;
   late final DefaultCacheManager _cacheManager;
 
   @override
-  FileImage get imageProvider => _fileImage;
-
-  @override
   Future<void> loadImage() async {
-    return await _loadManager.loadCachedFileImage(imageFile: _fileImage.file);
+    return await _loadManager.loadCachedFileImage(imageFile: imageProvider.file);
   }
 
   @override
@@ -65,23 +59,20 @@ class FileImageLoader extends ImageLoader {
 
 class MemoryImageLoader extends ImageLoader {
   MemoryImageLoader({
-    required MemoryImage memoryImage,
+    required this.imageProvider,
   }) {
-    _memoryImage = memoryImage;
     _cacheManager = DefaultCacheManager();
     _loadManager = LoadManager(cacheManager: _cacheManager);
   }
 
-  late final MemoryImage _memoryImage;
+  @override
+  final MemoryImage imageProvider;
   late final LoadManager _loadManager;
   late final DefaultCacheManager _cacheManager;
 
   @override
-  MemoryImage get imageProvider => _memoryImage;
-
-  @override
   Future<void> loadImage() async {
-    return await _loadManager.loadCachedMemoryImage(imageBytes: _memoryImage.bytes);
+    return await _loadManager.loadCachedMemoryImage(imageBytes: imageProvider.bytes);
   }
 
   @override

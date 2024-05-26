@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 
 import 'core/image_loader.dart';
 
-class LoadLocalImageWidget extends StatefulWidget {
-  const LoadLocalImageWidget({
+class LoadLocalImage extends StatefulWidget {
+  const LoadLocalImage({
     super.key,
     required this.imageLoader,
     this.placeholder,
     this.errorWidget,
+    required this.child,
   });
 
   final ImageLoader imageLoader;
   final Widget? placeholder;
   final Widget? errorWidget;
+  final Widget child;
 
   @override
-  State<LoadLocalImageWidget> createState() => _LoadLocalImageWidgetState();
+  State<LoadLocalImage> createState() => _LoadLocalImageState();
 }
 
-class _LoadLocalImageWidgetState extends State<LoadLocalImageWidget> {
+class _LoadLocalImageState extends State<LoadLocalImage> {
   @override
   void dispose() {
     widget.imageLoader.dispose();
@@ -30,11 +32,11 @@ class _LoadLocalImageWidgetState extends State<LoadLocalImageWidget> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: widget.imageLoader.loadImage(),
-      builder: (context, snapshot) {
+      builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return widget.placeholder ?? const SizedBox.shrink();
         } else if (snapshot.connectionState == ConnectionState.done) {
-          return widget.imageLoader.imageProvider as Widget;
+          return widget.child;
         } else {
           return widget.errorWidget ?? const SizedBox.shrink();
         }
