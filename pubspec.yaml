@@ -1,4 +1,4 @@
-name: cached_local_image
+name: load_local_image
 description: "Flutter package for loading and caching local images (asset or file) with placeholder and error widgets."
 version: 0.0.1
 homepage:
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_cache_manager: ^3.3.2
 
 dev_dependencies:
   flutter_test:
