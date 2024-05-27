@@ -21,17 +21,19 @@ class LoadLocalImage extends StatefulWidget {
 }
 
 class _LoadLocalImageState extends State<LoadLocalImage> {
-  @override
-  void dispose() {
-    widget.imageLoader.dispose();
+  late final Future<void> _future;
 
-    super.dispose();
+  @override
+  void initState() {
+    super.initState();
+
+    _future = widget.imageLoader.loadImage();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: widget.imageLoader.loadImage(),
+      future: _future,
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return widget.placeholder ?? const SizedBox.shrink();
